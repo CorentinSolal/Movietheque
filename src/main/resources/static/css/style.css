@@ -43,9 +43,6 @@ fieldset{
     overflow: auto;
     padding: 3rem;
 }
-fieldset *{
-    width: 100%;
-}
 
 thead {
     border-bottom: 1px solid white;
