@@ -41,9 +41,10 @@ public class MovieController {
         return "movies";
     }
 
-    @GetMapping("/movie/detail/{id}")
-    public String findMovie(@PathVariable long id, Model model) {
+    @GetMapping("/movie/{id}")
+    public String findMovie(@PathVariable(value = "id") long id, Model model) {
         Movie movie = movieService.getMovieById(id);
+        System.out.println("i got you " + movie);
         model.addAttribute("movie", movie);
         return "movie";
     }
