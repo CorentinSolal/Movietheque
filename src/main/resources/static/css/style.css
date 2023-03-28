@@ -1,0 +1,57 @@
+main{
+    --backgroundColor : linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+    min-height: 100vh;
+    min-width: 100vw;
+
+}
+body {
+    background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.card {
+    width: 400px;
+    height: 500px
+}
+.card-body{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.table {
+    background: rgba(255, 255, 255, 0.23);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    overflow: auto;
+    padding: 1rem;
+    color: white;
+}
+
+fieldset{
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    background: rgba(255, 255, 255, 0.23);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    overflow: auto;
+    padding: 3rem;
+}
+fieldset *{
+    width: 100%;
+}
+
+thead {
+    border-bottom: 1px solid white;
+}
+
+tbody tr {
+
+    border-style: hidden;
+}

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ENIFlix - See all movies !</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+<header th:insert="../fragments/header.html"></header>
+<main>
+    <div class="container " data-bs-theme="dark">
+        <div class="m-3">
+            <h2 class="text-center">Movies List</h2>
+        </div>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Year</th>
+                <th scope="col">Duration</th>
+                <th scope="col">Synopsis</th>
+                <th scope="col">Director</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="movie : ${movies}">
+                <td th:text="${movie.id}"></td>
+                <td th:text="${movie.title}"></td>
+                <td th:text="${movie.title}"></td>
+                <td th:text="${movie.duration}"></td>
+                <td th:text="${movie.synopsis}"></td>
+                <td th:text="${movie.director.firstName} + ' ' + ${movie.director.lastName}"></td>
+                <td>
+                    <a class="btn btn-primary" th:href="@{/movie/__${movie.id}__}">Link</a>
+                    <a class="btn btn-primary" th:if="${session.userSession != null}" data-th-href="@{/opinions/add/__${movie.id}__}">Avis</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <span th:if="${session.userSession == null}">
+            <button type="button" class="btn btn-primary"
+                    data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Add a movie
+            </button>
+        </span>
+        <span th:if="${session.userSession != null}">
+            <button type="button" class="btn btn-primary"
+                    data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Add a movie
+            </button>
+        </span>
+    </div>
+
+    <!--Add a movie's Modal-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add a movie</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body row">
+                    <form data-th-action="@{/movie/add}" data-th-object="${newMovie}" method="post" class="w-100">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="title">Title :</span>
+                            <input required type="text" class="form-control" placeholder="Title" aria-label="Title"
+                                   data-th-field="*{title}">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="year">Year :</span>
+                            <input required type="number" class="form-control" placeholder="year" aria-label="year"
+                                   data-th-field="*{year}" min="1900" max="2100">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="duration">Duration :</span>
+                            <input required type="number" class="form-control" placeholder="duration"
+                                   aria-label="duration" data-th-field="*{duration}">
+                        </div>
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="selectDirector">Director :</label>
+                            <select class="form-select" id="selectDirector" required data-th-field="*{director}">
+                                <option data-th-each="current : ${movieParticipants}"
+                                        data-th-text="'- ' + ${current.firstName} + ' ' + ${current.lastName}"
+                                        data-th-value="${current.id}">
+                                </option>
+                            </select>
+                            <button class="btn btn-outline-secondary" type="button">Add one</button>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="inputGenre">Genre :</label>
+                            <select class="form-select" id="inputGenre" required data-th-field="*{genre}">
+                                <option data-th-each="genre : ${movieGenres}" data-th-text="${genre.label}"
+                                        data-th-value="${genre.id}"></option>
+                            </select>
+                            <button class="btn btn-outline-secondary" type="button">Add one</button>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="taSynopsis">Synopsis :</span>
+                            <textarea required class="form-control" placeholder="Synopsis" aria-label="Synopsis"
+                                      data-th-field="*{synopsis}" maxlength="250"></textarea>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <label class="input-group-text" for="selectActors">Actors :</label>
+                            <select class="form-select" id="selectActors" required data-th-field="*{actors}" multiple>
+                                <option data-th-each="current : ${movieParticipants}"
+                                        data-th-text="'- ' + ${current.firstName} + ' ' + ${current.lastName}"
+                                        data-th-value="${current.id}"></option>
+                            </select>
+                            <button class="btn btn-outline-secondary" type="button">Add one</button>
+                        </div>
+                        <button class="btn btn-outline-primary" type="submit">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>
