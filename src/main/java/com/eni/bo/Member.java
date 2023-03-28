@@ -1,10 +1,18 @@
 package com.eni.bo;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+
 public class Member {
+	@Min(value=1, message="Should be greater than 0")
 	private long id;
+	@NotBlank
 	private String lastName;
+	@NotBlank
 	private String firstName;
+	@NotBlank
 	private String login;
+	@NotBlank
 	private String password;
 	private boolean isAdmin;
 

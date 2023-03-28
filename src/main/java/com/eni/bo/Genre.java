@@ -1,9 +1,17 @@
 package com.eni.bo;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 public class Genre {
+	@Min(value=1, message="Should be greater than 0")
 	private long id;
+	@NotBlank
+	@Size(min=3)
 	private String label;
 
+	@NotBlank
 	public Genre() {
 	}
 

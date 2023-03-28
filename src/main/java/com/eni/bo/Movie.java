@@ -1,9 +1,11 @@
 package com.eni.bo;
 
+import javax.validation.constraints.Min;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Movie {
+	@Min(value=1, message="Should be greater than 0")
 	private long id;
 	private String title;
 	private int year;

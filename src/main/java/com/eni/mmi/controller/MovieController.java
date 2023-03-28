@@ -8,9 +8,11 @@ import com.eni.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,20 +50,24 @@ public class MovieController {
 
     // Création d'un nouveau film
     @PostMapping("/movie/add")
-    public String createMovie(@ModelAttribute("newMovie") Movie newMovie, Model model, HttpSession session) {
+    public String createMovie(@Valid @ModelAttribute("newMovie") Movie newMovie, BindingResult br, Model model, HttpSession session) {
         // Test si un membre est connecté
         Object att = session.getAttribute("userSession");
         if (att != null) {
-            System.out.println(newMovie);
-            try {
-                movieService.saveMovie(newMovie);
-                return "redirect:/movies";
-            } catch (MovieException e) {
-                model.addAttribute("errors", e.getErrors());
+            if (br.hasErrors()) {
+                model.addAttribute("errors", br.getAllErrors());
                 model.addAttribute("newMovie", newMovie);
                 return "movies";
+            } else {
+                try {
+                    movieService.saveMovie(newMovie);
+                    return "redirect:/movies";
+                } catch (MovieException e) {
+                    model.addAttribute("errors", e.getErrors());
+                    model.addAttribute("newMovie", newMovie);
+                    return "movies";
+                }
             }
-
         } else {
             return "redirect:/login";
         }

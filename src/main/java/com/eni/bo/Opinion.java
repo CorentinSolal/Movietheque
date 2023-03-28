@@ -1,8 +1,13 @@
 package com.eni.bo;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+
 public class Opinion {
+	@Min(value=1, message="Should be greater than 0")
 	private long id;
 	private int note;
+	@NotBlank
 	private String comment;
 	private Member member;
 
