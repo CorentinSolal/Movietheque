@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>TP ENI</title>
+    <link rel="stylesheet" href="/css/general.css">
+    <link rel="stylesheet" href="/css/tp-form.css">
+    <link rel="icon" href="/images/logoENI.png">
+    <style>
+
+        .error {
+            color: red;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+<header th:insert="../fragments/header.html"></header>
+<main>
+    <div class="error" th:if="${errors != null}" th:text="${errors}"></div>
+    <form data-th-action="@{/opinions/add}" data-th-object="${opinion}" method="post">
+        <h1 data-th-text="${'Ajouter un avis au film : ' + session.selectedMovie.title}"></h1>
+        <ul class="flex-outer">
+            <li><label for="inputNote">Note : </label>
+                <input type="number" min="0" max="5" id="inputNote" data-th-field="*{note}" required/></li>
+            <li><label for="taComment">Commentaire : </label>
+                <textarea id="taComment" data-th-field="*{comment}" rows="3" required>
+				</textarea>
+            </li>
+            <li>
+                <button type="submit">Enregistrer</button>
+            </li>
+        </ul>
+    </form>
+</main>
+</body>
+</html>

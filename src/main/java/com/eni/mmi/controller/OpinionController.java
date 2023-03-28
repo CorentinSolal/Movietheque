@@ -34,7 +34,7 @@ public class OpinionController {
 			// Ajout de l'instance dans le modèle
 			model.addAttribute("opinion", opinion);
 
-			return "view-opinion-form";
+			return "opinion";
 		} else {
 			return "redirect:/login";
 		}
@@ -58,7 +58,7 @@ public class OpinionController {
 				return "redirect:/movies";
 			} catch (MovieException e) {
 				model.addAttribute("errors", e.getErrors());
-				return "view-opinion-form";
+				return "opinion";
 			}
 		} else {
 			return "redirect:/login";
